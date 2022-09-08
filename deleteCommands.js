@@ -8,7 +8,7 @@ const token = process.env.DISCORD_TOKEN;
 
 // EDIT ARRAY WITH IDs OF COMMAND(s) TO DELETE
 // ------------
-const toDelete = ['1016957126440132648'];
+const toDelete = [];
 // ------------
 
 const rest = new REST({ version: '10' }).setToken(token);

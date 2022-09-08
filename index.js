@@ -18,6 +18,19 @@ commandFiles.forEach(file => {
     client.commands.set(command.data.name, command);
 });
 
+// Dynamic message collection creation (message content to parse for)
+client.messages = new Collection();
+const messagesPath = path.join(__dirname, 'messages');
+const messageFiles = fs.readdirSync(messagesPath).filter(file => file.endsWith('.js'));
+
+// aSFDSAFADSF temp thingy so uh the export module for any message should be with a content and execute section
+
+messageFiles.forEach(file => {
+    const filePath = path.join(messagesPath, file);
+    const message = require(filePath);
+    client.messages.set(message.content, message.execute);
+});
+
 // Dynamic event file reading
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
