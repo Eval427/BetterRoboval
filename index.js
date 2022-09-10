@@ -1,11 +1,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 require('dotenv').config();
-// Require the necessary discord.js classes
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers] });
 
 // Dynamic command collection creation
 client.commands = new Collection();
@@ -19,7 +18,9 @@ commandFiles.forEach(file => {
 });
 
 // Dynamic message collection creation (message content to parse for)
+// client.messages includes NONEXACT matches. client.exactMessages includes EXACT matches
 client.messages = new Collection();
+client.exactMessages = new Collection();
 const messagesPath = path.join(__dirname, 'messages');
 const messageFiles = fs.readdirSync(messagesPath).filter(file => file.endsWith('.js'));
 
@@ -28,7 +29,23 @@ const messageFiles = fs.readdirSync(messagesPath).filter(file => file.endsWith('
 messageFiles.forEach(file => {
     const filePath = path.join(messagesPath, file);
     const message = require(filePath);
-    client.messages.set(message.content, message.execute);
+
+    // Note that at this moment all regex based message searches will not be loaded by this
+    if (!message.regex) {
+        if (typeof (message.content) === 'string') {
+            if (!message.exact) {
+                client.messages.set(message.content, message.execute);
+            } else {
+                client.exactMessages.set(message.content, message.execute);
+            }
+        } else {
+            if (!message.exact) {
+                message.content.forEach(item => client.messages.set(item, message.execute));
+            } else {
+                client.exactMessages.set(message.content, message.execute);
+            }
+        }
+    }
 });
 
 // Dynamic event file reading
@@ -47,3 +64,5 @@ eventFiles.forEach(file => {
 
 // Login to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
+
+module.exports = client;

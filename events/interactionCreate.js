@@ -1,7 +1,7 @@
 // Event handler for the creation of an interaction (usually through slash commands)
 
 module.exports = {
-    name: 'interactionsCreate',
+    name: 'interactionCreate',
     async execute(interaction) {
         if (!interaction.isChatInputCommand()) return;
 
