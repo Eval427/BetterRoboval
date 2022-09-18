@@ -1,10 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 require('dotenv').config();
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
-
-// Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers] });
+const { Collection } = require('discord.js');
+const client = require('./bot.js');
 
 // Dynamic command collection creation
 client.commands = new Collection();
@@ -17,14 +15,26 @@ commandFiles.forEach(file => {
     client.commands.set(command.data.name, command);
 });
 
+// Dynamic button collection creation
+client.buttons = new Collection();
+const buttonsPath = path.join(__dirname, 'buttons');
+const buttonFiles = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'));
+
+buttonFiles.forEach(file => {
+    const filePath = path.join(buttonsPath, file);
+    const button = require(filePath);
+    client.buttons.set(button.customId, button);
+});
+
 // Dynamic message collection creation (message content to parse for)
-// client.messages includes NONEXACT matches. client.exactMessages includes EXACT matches
+// client.messages includes NONEXACT matches
+// client.exactMessages includes EXACT matches
+// client.anyMessages is message events that will fire on ANY message (mostly for regex)
 client.messages = new Collection();
 client.exactMessages = new Collection();
+client.anyMessages = new Collection();
 const messagesPath = path.join(__dirname, 'messages');
 const messageFiles = fs.readdirSync(messagesPath).filter(file => file.endsWith('.js'));
-
-// aSFDSAFADSF temp thingy so uh the export module for any message should be with a content and execute section
 
 messageFiles.forEach(file => {
     const filePath = path.join(messagesPath, file);
@@ -45,6 +55,8 @@ messageFiles.forEach(file => {
                 client.exactMessages.set(message.content, message.execute);
             }
         }
+    } else {
+        client.anyMessages.set(message.regex, message.execute);
     }
 });
 
@@ -64,5 +76,3 @@ eventFiles.forEach(file => {
 
 // Login to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
-
-module.exports = client;

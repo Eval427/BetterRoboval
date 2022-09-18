@@ -1,16 +1,15 @@
 // Event handler for the creation of any message
-const client = require('../index.js');
+const client = require('../bot.js');
 
 module.exports = {
     name: 'messageCreate',
     async execute(message) {
-        // if (message.author === client.user) return;
+        if (message.author === client.user) return;
 
-        console.log(client);
         const exactMessage = client.exactMessages.get(message.cleanContent);
         if (exactMessage) {
             try {
-                await exactMessage.execute(message);
+                await exactMessage(message);
             } catch (error) {
                 console.error(error);
             }
@@ -18,14 +17,18 @@ module.exports = {
 
         const includesMessages = Array.from(client.messages);
         for await (const includesMessage of includesMessages) {
-            if (message.cleanContent.includes(includesMessage[0])) {
+            if (message.cleanContent.toLowerCase().includes(includesMessage[0])) {
                 try {
-                    await includesMessage[1];
+                    await includesMessage[1](message);
                     break;
                 } catch (error) {
                     console.error(error);
                 }
             }
+        }
+
+        for await (const anyMessage of Array.from(client.anyMessages)) {
+            anyMessage[1](message);
         }
     },
 };
