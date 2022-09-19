@@ -1,10 +1,9 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { messages } = require('../ooc.json');
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('ooc')
-        .setDescription('Shows a random message from #out-of-context'),
+    content: 'rv ooc',
+    exact: true,
     async execute(interaction) {
         if (interaction.channelId !== '896166279801606164') {
             interaction.reply({ content: 'This command can only be used in <#896166279801606164>', ephemeral: true });
@@ -25,6 +24,6 @@ module.exports = {
             embed.setDescription(message.content);
         }
 
-        await interaction.reply({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed], allowedMentions: { repliedUser: false } });
     },
 };

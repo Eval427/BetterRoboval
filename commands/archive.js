@@ -7,7 +7,7 @@ module.exports = {
         .setName('archive')
         .setDescription('Saves the most recently posted art to the art archive.'),
     async execute(interaction) {
-        const archiveChannelId = '932017472427679804';
+        const archiveChannelId = '934192953432367124';
         let archiveImage = undefined;
         let searchImage = true;
         let notFirst = false;
@@ -34,7 +34,7 @@ module.exports = {
                         }
 
                         searchImage = false;
-                        archiveImages.forEach(image => {
+                        archiveImages.images.forEach(image => {
                             if (image === archiveImage) searchImage = true;
                             notFirst = false;
                         });

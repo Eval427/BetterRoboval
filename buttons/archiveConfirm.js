@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     customId: 'archiveConfirm',
     async execute(interaction) {
-        const archiveChannelId = '1002373315018625044';
+        const archiveChannelId = '934193057644048474';
         const archiveChannel = interaction.client.channels.resolve(archiveChannelId);
         await archiveChannel.send(interaction.client.archiveUrl);
 
