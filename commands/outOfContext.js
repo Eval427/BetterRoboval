@@ -1,13 +1,14 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const { messages } = require('../ooc.json');
+require('dotenv').config();
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ooc')
         .setDescription('Shows a random message from #out-of-context'),
     async execute(interaction) {
-        if (interaction.channelId !== '896166279801606164') {
-            interaction.reply({ content: 'This command can only be used in <#896166279801606164>', ephemeral: true });
+        if (interaction.channelId !== process.env.BOTSPAM_CHANNEL_ID) {
+            interaction.reply({ content: `This command can only be used in <#${process.env.BOTSPAM_CHANNEL_ID}>`, ephemeral: true });
             return;
         }
 

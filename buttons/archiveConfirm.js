@@ -1,10 +1,10 @@
 const { EmbedBuilder } = require('discord.js');
+require('dotenv').config();
 
 module.exports = {
     customId: 'archiveConfirm',
     async execute(interaction) {
-        const archiveChannelId = '934193057644048474';
-        const archiveChannel = interaction.client.channels.resolve(archiveChannelId);
+        const archiveChannel = interaction.client.channels.resolve(process.env.ARCHIVE_CHANNEL_ID);
         await archiveChannel.send(interaction.client.archiveUrl);
 
         const confirmEmbed = new EmbedBuilder()

@@ -1,6 +1,7 @@
 // Event handler for the adding of a reaction to a messages
 require('dotenv').config();
 const client = require('../bot.js');
+const archiveImages = require('../archive.json');
 
 module.exports = {
     name: 'messageReactionAdd',
@@ -8,6 +9,8 @@ module.exports = {
         if (user.id === process.env.CLIENT_ID) return;
 
         await addRole(reaction, user);
+
+        // await archiveArt(reaction, user);
     },
 };
 
@@ -44,4 +47,21 @@ const addRole = async (reaction, user) => {
     });
 
     member.roles.add(role);
+};
+
+const archiveArt = async (reaction, user) => {
+    if (reaction.message.channelId !== '934192953432367124') return;
+
+    if (reaction.me) {
+        let archiveImage;
+        if (reaction.message.attachments.size > 0) {
+            archiveImage = Array.from(reaction.message.attachments.values())[0].url;
+        } else if (reaction.messages.embeds.length > 0) {
+            archiveImage = embed.url;
+        }
+
+        if (archiveImages.indexOf(archiveImage) === -1) {
+            await client.channels.resolve('934192953432367124').then(async channel => { await channel.send(archiveImage); });
+        }
+    }
 };

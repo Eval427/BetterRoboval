@@ -28,7 +28,11 @@ module.exports = {
         }
 
         for await (const anyMessage of Array.from(client.anyMessages)) {
-            anyMessage[1](message);
+            try {
+                await anyMessage[1](message);
+            } catch (error) {
+                console.error(error);
+            }
         }
     },
 };

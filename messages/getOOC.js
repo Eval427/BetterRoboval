@@ -58,4 +58,3 @@ const fetchMessages = async (channel, limit = 250) => {
 
     return collection;
 };
-

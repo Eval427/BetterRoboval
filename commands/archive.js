@@ -1,3 +1,5 @@
+// I'm too salty to remove this because it took so much time
+
 const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const archiveImages = require('../archive.json');
 const fs = require('node:fs');

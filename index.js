@@ -41,7 +41,7 @@ messageFiles.forEach(file => {
     const message = require(filePath);
 
     // Note that at this moment all regex based message searches will not be loaded by this
-    if (!message.regex) {
+    if (message.content) {
         if (typeof (message.content) === 'string') {
             if (!message.exact) {
                 client.messages.set(message.content, message.execute);
@@ -56,7 +56,7 @@ messageFiles.forEach(file => {
             }
         }
     } else {
-        client.anyMessages.set(message.regex, message.execute);
+        client.anyMessages.set(message.name, message.execute);
     }
 });
 
