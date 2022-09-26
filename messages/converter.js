@@ -61,6 +61,7 @@ module.exports = {
             conversionEmbed.setDescription(`${conversionEmbed.data.description} for the Europeans`);
         }
 
+        if (!conversionEmbed.data.description) return;
         await message.reply({ embeds: [conversionEmbed], allowedMentions: { repliedUser: false } });
     },
 };
