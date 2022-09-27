@@ -1,6 +1,7 @@
 const { Collection } = require('discord.js');
 const fs = require('fs');
 const client = require('../bot.js');
+require('dotenv').config();
 
 module.exports = {
     content: 'rv getooc',
@@ -13,7 +14,7 @@ module.exports = {
         await message.delete();
 
         const messageAmount = /rv getooc\s?(\d+)?/g.exec(message.cleanContent) ? /rv getooc\s?(\d+)?/g.exec(message.cleanContent)[1] : 6750;
-        const fetchedMessages = await fetchMessages(client.channels.resolve('895518829860515870'), messageAmount);
+        const fetchedMessages = await fetchMessages(client.channels.resolve(process.env.OOC_CHANNEL_ID), messageAmount);
         const messagesToSave = [];
 
         fetchedMessages.forEach(channelMessage => {

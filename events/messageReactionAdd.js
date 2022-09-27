@@ -2,6 +2,7 @@
 require('dotenv').config();
 const client = require('../bot.js');
 const archiveImages = require('../archive.json');
+const fs = require('node:fs');
 
 module.exports = {
     name: 'messageReactionAdd',
@@ -10,7 +11,7 @@ module.exports = {
 
         await addRole(reaction, user);
 
-        // await archiveArt(reaction, user);
+        await archiveArt(reaction);
     },
 };
 
@@ -49,19 +50,22 @@ const addRole = async (reaction, user) => {
     member.roles.add(role);
 };
 
-const archiveArt = async (reaction, user) => {
-    if (reaction.message.channelId !== '934192953432367124') return;
+const archiveArt = async (reaction) => {
+    if (reaction.message.channelId !== process.env.ARTSHARE_CHANNEL_ID) return;
 
     if (reaction.me) {
         let archiveImage;
         if (reaction.message.attachments.size > 0) {
             archiveImage = Array.from(reaction.message.attachments.values())[0].url;
-        } else if (reaction.messages.embeds.length > 0) {
-            archiveImage = embed.url;
+        } else if (reaction.message.embeds.length > 0) {
+            archiveImage = reaction.message.embeds[0].url;
         }
 
-        if (archiveImages.indexOf(archiveImage) === -1) {
-            await client.channels.resolve('934192953432367124').then(async channel => { await channel.send(archiveImage); });
+        if (archiveImages.images.indexOf(archiveImage) === -1) {
+            const archiveChannel = await client.channels.resolve(process.env.ARCHIVE_CHANNEL_ID);
+            await archiveChannel.send(archiveImage);
+            archiveImages.images.push(archiveImage);
+            fs.writeFileSync('archive.json', JSON.stringify(archiveImages, null, 4));
         }
     }
 };

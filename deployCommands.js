@@ -4,9 +4,9 @@ const { Routes } = require('discord.js');
 const { REST } = require('@discordjs/rest');
 require('dotenv').config();
 
-const clientId = process.env.CLIENT_ID_V1;
+const clientId = process.env.CLIENT_ID;
 const guildId = process.env.GUILD_ID;
-const token = process.env.DISCORD_TOKEN_V1;
+const token = process.env.DISCORD_TOKEN;
 
 // Dynamically execute all commands defined in the commands folder
 const commands = [];
