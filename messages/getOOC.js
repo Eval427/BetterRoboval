@@ -29,7 +29,7 @@ module.exports = {
             }
         });
 
-        fs.writeFileSync('ooc.json', JSON.stringify({ messages: messagesToSave }, null, 4));
+        fs.writeFileSync('./data/ooc.json', JSON.stringify({ messages: messagesToSave }, null, 4));
     },
 };
 

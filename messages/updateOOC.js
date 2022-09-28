@@ -1,6 +1,6 @@
 const fs = require('fs');
 const client = require('../bot.js');
-const ooc = require('../ooc.json');
+const ooc = require('../data/ooc.json');
 require('dotenv').config();
 
 module.exports = {
@@ -21,6 +21,6 @@ module.exports = {
         if (!(messageToSave.content || messageToSave.image)) return;
 
         ooc.messages.push(messageToSave);
-        fs.writeFileSync('ooc.json', JSON.stringify(ooc, null, 4));
+        fs.writeFileSync('./data/ooc.json', JSON.stringify(ooc, null, 4));
     },
 };

@@ -1,6 +1,6 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
 const fs = require('node:fs');
-const archiveImages = require('../archive.json');
+const archiveImages = require('../data/archive.json');
 require('dotenv').config();
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
             const archiveChannel = await interaction.client.channels.resolve(process.env.ARCHIVE_CHANNEL_ID);
             await archiveChannel.send(archiveImage);
             archiveImages.images.push(archiveImage);
-            fs.writeFileSync('archive.json', JSON.stringify(archiveImages, null, 4));
+            fs.writeFileSync('./data/archive.json', JSON.stringify(archiveImages, null, 4));
             await message.react('✨');
             await interaction.reply({ content: 'Art successfully archived!', ephemeral: true });
         } else {

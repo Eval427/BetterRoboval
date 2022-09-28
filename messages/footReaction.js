@@ -1,5 +1,5 @@
 // Adds reactions to all messages containing the word foot
-const footScores = require('../footScores.json');
+const footScores = require('../data/footScores.json');
 const fs = require('node:fs');
 
 module.exports = {
@@ -9,6 +9,6 @@ module.exports = {
         await message.react(footEmojis[Math.floor(Math.random() * footEmojis.length)]);
 
         footScores[message.author.id] += 1;
-        fs.writeFileSync('footScores.json', JSON.stringify(footScores, null, 4));
+        fs.writeFileSync('./data/footScores.json', JSON.stringify(footScores, null, 4));
     },
 };

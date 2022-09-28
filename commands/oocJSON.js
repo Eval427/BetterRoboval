@@ -11,6 +11,6 @@ module.exports = {
             return;
         }
 
-        await interaction.reply({ files: ['./ooc.json'] });
+        await interaction.reply({ files: ['./data/ooc.json'] });
     },
 };

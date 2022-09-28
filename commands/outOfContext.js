@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { messages } = require('../ooc.json');
+const { messages } = require('../data/ooc.json');
 require('dotenv').config();
 
 module.exports = {
