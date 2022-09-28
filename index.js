@@ -26,6 +26,17 @@ buttonFiles.forEach(file => {
     client.buttons.set(button.customId, button);
 });
 
+// Dynamic context menu collection creation
+client.contextMenu = new Collection();
+const contextMenuPath = path.join(__dirname, 'contextMenu');
+const contextMenuFiles = fs.readdirSync(contextMenuPath).filter(file => file.endsWith('.js'));
+
+contextMenuFiles.forEach(file => {
+    const filePath = path.join(contextMenuPath, file);
+    const contextMenuCommand = require(filePath);
+    client.contextMenu.set(contextMenuCommand.name, contextMenuCommand);
+});
+
 // Dynamic message collection creation (message content to parse for)
 // client.messages includes NONEXACT matches
 // client.exactMessages includes EXACT matches

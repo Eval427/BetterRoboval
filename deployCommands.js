@@ -19,6 +19,16 @@ commandFiles.forEach(file => {
     commands.push(command.data.toJSON());
 });
 
+// Dynamically register all context menu commands
+const contextMenuPath = path.join(__dirname, 'contextMenu');
+const contextMenuFiles = fs.readdirSync(contextMenuPath).filter(file => file.endsWith('.js'));
+
+contextMenuFiles.forEach(file => {
+    const filePath = path.join(contextMenuPath, file);
+    const contextMenuCommand = require(filePath);
+    commands.push(contextMenuCommand.data.toJSON());
+});
+
 const rest = new REST({ version: '10' }).setToken(token);
 
 rest.put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })

@@ -1,8 +1,6 @@
 // Event handler for the adding of a reaction to a messages
 require('dotenv').config();
 const client = require('../bot.js');
-const archiveImages = require('../archive.json');
-const fs = require('node:fs');
 
 module.exports = {
     name: 'messageReactionAdd',
@@ -10,8 +8,6 @@ module.exports = {
         if (user.id === process.env.CLIENT_ID) return;
 
         await addRole(reaction, user);
-
-        await archiveArt(reaction);
     },
 };
 
@@ -50,6 +46,7 @@ const addRole = async (reaction, user) => {
     member.roles.add(role);
 };
 
+/*
 const archiveArt = async (reaction) => {
     if (reaction.message.channelId !== process.env.ARTSHARE_CHANNEL_ID) return;
 
@@ -69,3 +66,4 @@ const archiveArt = async (reaction) => {
         }
     }
 };
+*/

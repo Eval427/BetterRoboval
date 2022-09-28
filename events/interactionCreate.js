@@ -5,6 +5,7 @@ module.exports = {
     async execute(interaction) {
         await slashInteraction(interaction);
         await buttonInteraction(interaction);
+        await contextMenuInteraction(interaction);
     },
 };
 
@@ -35,5 +36,19 @@ const buttonInteraction = async (interaction) => {
     } catch (error) {
         console.error(error);
         await interaction.reply({ content: 'There was an error while executing this button process!', ephemeral: true });
+    }
+};
+
+const contextMenuInteraction = async (interaction) => {
+    if (!interaction.isMessageContextMenuCommand()) return;
+
+    const contextMenu = interaction.client.contextMenu.get(interaction.name);
+
+    if (!contextMenu) return;
+
+    try {
+        await contextMenu.execute(interaction);
+    } catch (error) {
+        console.error(error);
     }
 };
