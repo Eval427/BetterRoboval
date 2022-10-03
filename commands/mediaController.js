@@ -13,7 +13,7 @@ module.exports = {
         }
 
         if (interaction.channelId !== process.env.VC_TEXT_ID) {
-            await interaction.reply({ content: `You can only use this command in <#${process.env.VC_TEXT_ID}`, ephemeral: true });
+            await interaction.reply({ content: `You can only use this command in <#${process.env.VC_TEXT_ID}>`, ephemeral: true });
             return;
         }
 
