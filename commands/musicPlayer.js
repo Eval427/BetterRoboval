@@ -17,6 +17,11 @@ module.exports = {
             return;
         }
 
+        if (interaction.channelId !== process.env.VC_TEXT_ID) {
+            await interaction.reply({ content: `You can only use this command in <#${process.env.VC_TEXT_ID}`, ephemeral: true });
+            return;
+        }
+
         // Add condition for if user is trying to make roboval join a diff VC
         const voiceConnection = getVoiceConnection(interaction.guild.id);
         if (voiceConnection && voiceConnection.joinConfig.channelId !== interaction.member.voice.channelId) {

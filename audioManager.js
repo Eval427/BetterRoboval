@@ -29,7 +29,6 @@ const playAudio = async (interaction, force = false) => {
 
 const pauseAudio = async () => {
     await player.pause();
-    console.log(player._state.status);
 };
 
 const unpauseAudio = async () => {

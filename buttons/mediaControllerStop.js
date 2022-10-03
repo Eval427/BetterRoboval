@@ -1,6 +1,6 @@
 const { getVoiceConnection } = require('@discordjs/voice');
 const { EmbedBuilder } = require('discord.js');
-const { stopAudio } = require('../audioManager.js');
+const { stopAudio, unpauseAudio } = require('../audioManager.js');
 
 module.exports = {
     customId: 'mediaControllerStop',
@@ -19,6 +19,7 @@ module.exports = {
         if (interaction.member.voice.channel?.id !== getVoiceConnection(interaction.guild.id).joinConfig.channelId) return;
 
         const connection = getVoiceConnection(interaction.guild.id);
+        await unpauseAudio();
         await stopAudio();
         connection.destroy();
         interaction.client.mediaControllerInteraction = null;

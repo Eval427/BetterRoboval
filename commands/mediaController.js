@@ -12,10 +12,14 @@ module.exports = {
             return;
         }
 
+        if (interaction.channelId !== process.env.VC_TEXT_ID) {
+            await interaction.reply({ content: `You can only use this command in <#${process.env.VC_TEXT_ID}`, ephemeral: true });
+            return;
+        }
+
         interaction.client.mediaControllerInteraction = interaction;
 
         let embedDescription = '';
-        console.log(interaction.client.audioQueue);
         for (const [index, video] of interaction.client.audioQueue.entries()) {
             embedDescription += `${index + 2}. ${video.title}\n`;
         }
