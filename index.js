@@ -85,5 +85,11 @@ eventFiles.forEach(file => {
     }
 });
 
+// Initialize global variables
+client.musicSearchInteraction = null;
+client.mediaControllerInteraction = null;
+client.currentlyPlaying = null;
+client.audioQueue = [];
+
 // Login to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
